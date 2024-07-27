@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tejasbhong.pokemon.R
 
@@ -25,32 +26,38 @@ fun PokemonChars(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = stringResource(id = R.string.height),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Text(
                 text = stringResource(id = R.string.x_m, height),
                 style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = stringResource(id = R.string.height),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
             )
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = stringResource(id = R.string.weight),
-                style = MaterialTheme.typography.bodyLarge,
-            )
             Text(
                 text = stringResource(id = R.string.x_kg, weight),
                 style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = stringResource(id = R.string.weight),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
             )
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = stringResource(id = R.string.base_experience),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Text(
                 text = baseExperience.toString(),
                 style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = stringResource(id = R.string.base_experience),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
             )
         }
     }

@@ -52,7 +52,7 @@ class PokemonsViewModel @Inject constructor(
         fetchPokemons(offset = _uiData.value.pokemons.pokemons.size)
     }
 
-    private fun fetchPokemons(initial: Boolean = false, limit: Int = 10, offset: Int = 0) {
+    private fun fetchPokemons(initial: Boolean = false, limit: Int = 20, offset: Int = 0) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _uiState.trySend(if (initial) UiState.Loading else UiState.Paginating)
@@ -65,7 +65,7 @@ class PokemonsViewModel @Inject constructor(
                             count = pokemons.count,
                             next = pokemons.next,
                             previous = pokemons.previous,
-                            pokemons = pokemonsList,
+                            pokemons = pokemonsList.distinctBy { it.name },
                         )
                     )
                 }
