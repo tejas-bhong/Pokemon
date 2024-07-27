@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pokémon</string>
+    <string name="an_unknown_error_occurred">An unknown error occurred!</string>
+    <string name="retry">Retry</string>
+    <string name="x_m">%1$.1f M</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="x_kg">%1$.1f Kg</string>
+    <string name="id">#%1$04d</string>
+    <string name="base_experience">Base Experience</string>
+    <string name="back">Back</string>
+</resources>
