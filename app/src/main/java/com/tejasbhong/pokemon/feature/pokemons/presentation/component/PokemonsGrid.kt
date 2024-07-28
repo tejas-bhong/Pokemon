@@ -11,9 +11,10 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tejasbhong.pokemon.feature.pokemons.domain.model.Pokemon
 import com.tejasbhong.pokemon.common.presentation.component.Loading
 import com.tejasbhong.pokemon.common.presentation.util.Ui.plus
+import com.tejasbhong.pokemon.feature.pokemons.domain.model.Pokemon
+import com.tejasbhong.pokemon.feature.pokemons.domain.model.Pokemons
 import com.tejasbhong.pokemon.feature.pokemons.presentation.PokemonItem
 
 @Composable
@@ -21,7 +22,7 @@ fun PokemonsGrid(
     modifier: Modifier = Modifier,
     visible: Boolean,
     contentPadding: PaddingValues,
-    pokemons: List<Pokemon>,
+    pokemons: Pokemons,
     isPaginating: Boolean,
     onLoadMore: () -> Unit,
     onPokemonClick: (Int) -> Unit,
@@ -38,14 +39,17 @@ fun PokemonsGrid(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            itemsIndexed(items = pokemons) { index: Int, pokemon: Pokemon ->
+            itemsIndexed(
+                items = pokemons.pokemons,
+                key = { _, pokemon: Pokemon -> pokemon.name },
+            ) { index: Int, pokemon: Pokemon ->
                 PokemonItem(
                     pokemon = pokemon,
                     onClick = {
                         onPokemonClick(pokemon.getId())
                     },
                 )
-                if (index == pokemons.size - 1) {
+                if (index == pokemons.pokemons.lastIndex) {
                     onLoadMore()
                 }
             }

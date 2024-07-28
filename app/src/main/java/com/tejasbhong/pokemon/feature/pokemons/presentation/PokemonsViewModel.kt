@@ -58,14 +58,28 @@ class PokemonsViewModel @Inject constructor(
                 _uiState.trySend(if (initial) UiState.Loading else UiState.Paginating)
                 _uiData.update { uiData ->
                     val pokemonsList = uiData.pokemons.pokemons.toMutableList()
-                    val pokemons = getPokemons(limit, offset)
+                    val pokemons = if (initial) {
+                        getPokemons(limit, offset)
+                    } else {
+                        val nextUrl = _uiData.value.pokemons.next
+                        if (nextUrl != null) {
+                            getPokemons(
+                                limit,
+                                nextUrl.split("offset=").last().split("&").first().toInt()
+                            )
+                        } else {
+                            _uiState.trySend(UiState.Idle)
+                            return@launch
+                        }
+                    }
                     pokemonsList.addAll(pokemons.pokemons)
                     uiData.copy(
                         pokemons = Pokemons(
                             count = pokemons.count,
                             next = pokemons.next,
                             previous = pokemons.previous,
-                            pokemons = pokemonsList.distinctBy { it.name },
+//                            pokemons = pokemonsList.distinctBy { it.name },
+                            pokemons = pokemonsList,
                         )
                     )
                 }
