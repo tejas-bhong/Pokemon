@@ -83,8 +83,7 @@ private fun PokemonScreen(
                     modifier = Modifier
                         .verticalScroll(state = rememberScrollState())
                         .padding(contentPadding + PaddingValues(16.dp))
-                        .fillMaxSize()
-                        .then(modifier),
+                        .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     PokemonPhoto(
@@ -107,8 +106,7 @@ private fun PokemonScreen(
                 Row(
                     modifier = Modifier
                         .padding(contentPadding + PaddingValues(16.dp))
-                        .fillMaxSize()
-                        .then(modifier),
+                        .fillMaxSize(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     PokemonPhoto(
@@ -120,7 +118,9 @@ private fun PokemonScreen(
                         name = pokemonDetails.name,
                     )
                     Column(
-                        modifier = Modifier.weight(1F),
+                        modifier = Modifier
+                            .weight(1F)
+                            .verticalScroll(state = rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         PokemonName(pokemonDetails.name)
