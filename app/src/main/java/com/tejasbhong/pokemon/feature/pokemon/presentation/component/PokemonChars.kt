@@ -22,9 +22,12 @@ fun PokemonChars(
 ) {
     Row(
         modifier = Modifier.padding(top = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(32.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.weight(1F),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
                 text = stringResource(id = R.string.x_m, height),
                 style = MaterialTheme.typography.headlineMedium,
@@ -32,11 +35,14 @@ fun PokemonChars(
             )
             Text(
                 text = stringResource(id = R.string.height),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
             )
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.weight(1F),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
                 text = stringResource(id = R.string.x_kg, weight),
                 style = MaterialTheme.typography.headlineMedium,
@@ -44,11 +50,14 @@ fun PokemonChars(
             )
             Text(
                 text = stringResource(id = R.string.weight),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
             )
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.weight(1F),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
                 text = baseExperience.toString(),
                 style = MaterialTheme.typography.headlineMedium,
@@ -56,7 +65,7 @@ fun PokemonChars(
             )
             Text(
                 text = stringResource(id = R.string.base_experience),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
             )
         }

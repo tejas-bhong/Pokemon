@@ -10,4 +10,7 @@ class GetPokemons @Inject constructor(
     suspend operator fun invoke(limit: Int, offset: Int): Pokemons {
         return pokemonRepository.getPokemons(limit, offset)
     }
+    suspend operator fun invoke(url: String): Pokemons {
+        return pokemonRepository.getPokemons(url)
+    }
 }

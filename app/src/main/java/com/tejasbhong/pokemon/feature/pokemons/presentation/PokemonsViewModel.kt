@@ -34,7 +34,7 @@ class PokemonsViewModel @Inject constructor(
     )
 
     init {
-        fetchPokemons(initial = true)
+        fetchPokemons()
     }
 
     fun onUiEvent(uiEvent: UiEvent) {
@@ -45,41 +45,55 @@ class PokemonsViewModel @Inject constructor(
     }
 
     private fun handleRetryLoading() {
-        fetchPokemons(initial = true)
+        fetchPokemons()
     }
 
     private fun handleLoadMorePokemons() {
-        fetchPokemons(offset = _uiData.value.pokemons.pokemons.size)
+        fetchMorePokemons()
     }
 
-    private fun fetchPokemons(initial: Boolean = false, limit: Int = 20, offset: Int = 0) {
+    private fun fetchMorePokemons() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _uiState.trySend(if (initial) UiState.Loading else UiState.Paginating)
+                val nextUrl = _uiData.value.pokemons.next
+                if (nextUrl == null) {
+                    _uiState.trySend(UiState.Idle)
+                    return@launch
+                }
+                _uiState.trySend(UiState.Paginating)
+                val pokemonsList = _uiData.value.pokemons.pokemons.toMutableList()
+                val pokemons = getPokemons(nextUrl)
+                pokemonsList.addAll(pokemons.pokemons)
                 _uiData.update { uiData ->
-                    val pokemonsList = uiData.pokemons.pokemons.toMutableList()
-                    val pokemons = if (initial) {
-                        getPokemons(limit, offset)
-                    } else {
-                        val nextUrl = _uiData.value.pokemons.next
-                        if (nextUrl != null) {
-                            getPokemons(
-                                limit,
-                                nextUrl.split("offset=").last().split("&").first().toInt()
-                            )
-                        } else {
-                            _uiState.trySend(UiState.Idle)
-                            return@launch
-                        }
-                    }
-                    pokemonsList.addAll(pokemons.pokemons)
                     uiData.copy(
                         pokemons = Pokemons(
                             count = pokemons.count,
                             next = pokemons.next,
                             previous = pokemons.previous,
-//                            pokemons = pokemonsList.distinctBy { it.name },
                             pokemons = pokemonsList,
+                        )
+                    )
+                }
+                _uiState.trySend(UiState.Idle)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _uiState.trySend(UiState.ErrorPokemonsLoading)
+            }
+        }
+    }
+
+    private fun fetchPokemons(limit: Int = 20, offset: Int = 0) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _uiState.trySend(UiState.Loading)
+                _uiData.update { uiData ->
+                    val pokemons = getPokemons(limit, offset)
+                    uiData.copy(
+                        pokemons = Pokemons(
+                            count = pokemons.count,
+                            next = pokemons.next,
+                            previous = pokemons.previous,
+                            pokemons = pokemons.pokemons,
                         )
                     )
                 }

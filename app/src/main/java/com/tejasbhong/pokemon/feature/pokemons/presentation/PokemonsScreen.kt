@@ -46,7 +46,7 @@ private fun PokemonsScreen(
         modifier = Modifier
             .fillMaxSize()
             .then(modifier),
-        contentAlignment = Alignment.TopCenter,
+        contentAlignment = Alignment.Center,
     ) {
         ErrorRetry(
             visible = uiState is UiState.ErrorPokemonsLoading,
