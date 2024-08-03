@@ -60,6 +60,7 @@ private fun PokemonsScreen(
             contentPadding = contentPadding,
             pokemons = uiData.pokemons,
             isPaginating = uiState is UiState.Paginating,
+            isEnd = uiState is UiState.EndOfList,
             onLoadMore = { onUiEvent(UiEvent.LoadMorePokemons) },
             onPokemonClick = onPokemonClick,
         )

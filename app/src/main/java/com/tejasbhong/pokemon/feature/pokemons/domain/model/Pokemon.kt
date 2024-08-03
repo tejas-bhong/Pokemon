@@ -3,6 +3,8 @@ package com.tejasbhong.pokemon.feature.pokemons.domain.model
 data class Pokemon(
     val name: String = "Pokemon",
     val url: String = "",
+    val titleColor: Int? = null,
+    val backgroundColor: Int? = null,
 ) {
     fun getId(): Int {
         return url.split("/").dropLast(1).last().toInt()

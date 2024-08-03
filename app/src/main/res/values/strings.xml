@@ -9,4 +9,5 @@
     <string name="id">#%1$04d</string>
     <string name="base_experience">Base Experience</string>
     <string name="back">Back</string>
+    <string name="end_of_list">You\'ve reached the end.</string>
 </resources>

@@ -5,4 +5,5 @@ sealed interface UiState {
     data object Loading : UiState
     data object Paginating : UiState
     data object ErrorPokemonsLoading : UiState
+    data object EndOfList : UiState
 }

@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.tejasbhong.pokemon.feature.pokemon.domain.usecase.GetPokemonDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,8 +26,8 @@ class PokemonViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = UiData(),
     )
-    private val _uiState = Channel<UiState>()
-    val uiState = _uiState.receiveAsFlow().stateIn(
+    private val _uiState = MutableSharedFlow<UiState>(extraBufferCapacity = 1)
+    val uiState = _uiState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = UiState.Loading,
@@ -49,16 +48,16 @@ class PokemonViewModel @Inject constructor(
         savedStateHandle["id"] = id
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _uiState.trySend(UiState.Loading)
+                _uiState.tryEmit(UiState.Loading)
                 _uiData.update { uiData ->
                     uiData.copy(
                         pokemon = getPokemonDetails(id)
                     )
                 }
-                _uiState.trySend(UiState.Idle)
+                _uiState.tryEmit(UiState.Idle)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _uiState.trySend(UiState.ErrorPokemonLoading)
+                _uiState.tryEmit(UiState.ErrorPokemonLoading)
             }
         }
     }
